@@ -2,21 +2,34 @@ import Fluent
 import FluentPostgresDriver
 import Vapor
 
-// configures your application
 public func configure(_ app: Application) throws {
-    // uncomment to serve files from /Public folder
-    // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+    try routes(app)
+}
 
-    app.databases.use(.postgres(
-        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
-        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? PostgresConfiguration.ianaPortNumber,
-        username: Environment.get("DATABASE_USERNAME") ?? "vapor_username",
-        password: Environment.get("DATABASE_PASSWORD") ?? "vapor_password",
-        database: Environment.get("DATABASE_NAME") ?? "vapor_database"
-    ), as: .psql)
+public func configure(_ app: Application, database: DatabaseConfiguration) throws {
 
-    app.migrations.add(CreateTodo())
+    app.logger.info("Connecting to database with configuration: \(database)")
 
-    // register routes
+    app.databases.use(
+        .postgres(
+            hostname: database.hostname,
+            port: database.port,
+            username: database.username,
+            password: database.password,
+            database: database.databaseName
+        ),
+        as: .psql
+    )
+
+    app.logger.info("Attempting to perform database migrations")
+
+    do {
+        try app.autoMigrate().wait()
+    } catch {
+        try app.autoRevert().wait()
+    }
+
+    app.logger.info("Attempting to register routes")
+
     try routes(app)
 }
