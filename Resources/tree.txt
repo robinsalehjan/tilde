@@ -1,0 +1,47 @@
+wearables
+  - clothes
+  - bags
+  - shoes
+  - accessories
+    - sunglasses
+    - jewelry
+    - belts
+    - scarves
+    - caps
+  - fitness
+  - makeup
+
+home
+  - plants
+  - livingroom
+  - kitchen
+  - furniture
+
+outdoor
+  - hiking
+    - gear
+  - winter
+  - running
+  - biking
+
+art
+  - posters
+  - paintings
+  - ceramics
+
+children
+  - clothes
+  - babygear
+  - toys
+  
+devices
+  - apple
+  - headphones
+  - consoles
+  - beauty
+
+hobbies
+  - books
+  - boardgames
+  - crafts
+  - collectibles
