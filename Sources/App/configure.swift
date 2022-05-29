@@ -2,10 +2,6 @@ import Fluent
 import FluentPostgresDriver
 import Vapor
 
-public func configure(_ app: Application) throws {
-    try routes(app)
-}
-
 public func configure(_ app: Application, database: DatabaseConfiguration) throws {
 
     app.logger.info("Connecting to database with configuration: \(database)")

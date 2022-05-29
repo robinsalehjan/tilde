@@ -1,14 +1,8 @@
 import Fluent
 import Vapor
 
-func routes(_ app: Application) throws {
-    app.get { req in
-        return "It works!"
-    }
-
-    app.get("hello") { req -> String in
-        return "Hello, world!"
-    }
-
-    try app.register(collection: TodoController())
+public func routes(_ app: Application) throws {
+    try app.register(collection: CreateController())
+    try app.register(collection: UserController())
+    app.logger.info("Successfully registered routes: \(app.routes.all.description)")
 }
