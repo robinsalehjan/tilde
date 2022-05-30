@@ -21,7 +21,10 @@ public func configure(_ app: Application, database: DatabaseConfiguration) throw
         as: .psql
     )
 
-    app.logger.info("Attempting to perform database migrations")
+    app.migrations.add([
+        CreateUser(),
+        CreateListing()
+    ])
 
     do {
         try app.autoMigrate().wait()
