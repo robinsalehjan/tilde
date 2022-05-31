@@ -33,11 +33,19 @@ extension UserController {
             let userID = try user.requireID()
             let input = try request.content.decode(Listing.Input.self)
 
-            let listing = CreateListingFactory.createListing(input, ownerID: userID, categoryID: nil)
-            try! await listing.create(on: database)
+            if let category = await CreateCategoryFactory.createCategoryFromString(input.category, to: database) {
+                let categoryID = try? category.requireID()
 
-            let output = CreateListingFactory.createListingOutput(listing)
-            return try await output.encodeResponse(status: .ok, for: request)
+                let listing = CreateListingFactory.createListing(input, ownerID: userID, categoryID: categoryID)
+                try? await listing.create(on: database)
+
+                let output = CreateListingFactory.createListingOutput(listing)
+                return try await output.encodeResponse(status: .ok, for: request)
+
+            } else {
+                request.logger.error("Category \(input.category) is not supported")
+                return Response.create(status: .ok, mediaType: .json)
+            }
 
         } catch let error {
             request.logger.error("Failed to handle request: \(request) with error: \(error)")
