@@ -62,11 +62,8 @@ extension UserController {
 
             return try await output.encodeResponse(status: .ok, for: request)
 
-        } catch let error as DecodingError {
-            request.logger.error("Failed to decode with error: \(error)")
-            return Response.create(status: .internalServerError, mediaType: .json)
-        } catch {
-            request.logger.error("Failed to handle request: \(request)")
+        } catch let error {
+            request.logger.error("Failed to handle request: \(request) with error: \(error)")
             return Response.create(status: .internalServerError, mediaType: .json)
         }
     }
@@ -135,4 +132,3 @@ extension UserController {
         }
     }
 }
-

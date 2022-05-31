@@ -21,8 +21,8 @@ extension SearchController {
                 .limit(32)
                 .all()
                 .encodeResponse(status: .ok, for: request)
-        } catch {
-            request.logger.error("Failed to handle request: \(request)")
+        } catch let error {
+            request.logger.error("Failed to handle request: \(request) with error: \(error)")
             return Response.create(status: .internalServerError, mediaType: .json)
         }
     }

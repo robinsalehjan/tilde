@@ -30,11 +30,8 @@ extension CreateController {
                 try await user.create(on: database)
                 return Response.create(status: .ok, mediaType: .json)
             }
-        } catch let error as DecodingError {
-            request.logger.error("Failed to decode payload with error: \(error)")
-            return Response.create(status: .internalServerError, mediaType: .json)
-        } catch {
-            request.logger.error("Failed to handle request: \(request)")
+        } catch let error {
+            request.logger.error("Failed to handle request: \(request) with error: \(error)")
             return Response.create(status: .internalServerError, mediaType: .json)
         }
     }
