@@ -5,9 +5,9 @@ class CreateCategoryFactory: CategoryFactory {
         return Category(name: input.name, parentID: parentID)
     }
 
-    static func createCategoryFromString(_ string: String, to database: Database) async -> Category? {
-        guard !string.isEmpty else { return nil }
-        var listOfCategories = string.components(separatedBy: ".")
+    static func createCategoryFromInput(_ string: String, to database: Database) async -> Category? {
+        var listOfCategories = string.splitOnSeperator(".")
+
         let categoryName = listOfCategories.removeFirst()
 
         if let category = await Category.fetch(categoryName, database: database) {
