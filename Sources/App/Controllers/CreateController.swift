@@ -14,14 +14,9 @@ extension CreateController {
 
         do {
             let input = try request.content.decode(User.Input.self)
+            let user = CreateUserFactory.createUser(input)
 
-            let user = User(
-                username: input.username,
-                firstName: input.firstName,
-                lastName: input.lastName
-            )
-
-            let userAlreadyExists = await User.exists(input.username, database: database)
+            let userAlreadyExists = await User.exists(user.username, database: database)
 
             if userAlreadyExists {
                 request.logger.error("user with username: \(user.username) already exists")

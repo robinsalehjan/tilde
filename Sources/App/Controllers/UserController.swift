@@ -31,35 +31,11 @@ extension UserController {
         do {
             let userID = try user.requireID()
             let input = try request.content.decode(Listing.Input.self)
-
-            let listing = Listing(
-                title: input.title,
-                caption: input.caption,
-                category: input.category,
-                likes: input.likes,
-                size: input.size,
-                currency: input.currency,
-                askingPrice: input.askingPrice,
-                isSold: input.isSold,
-                ownerID: userID
-            )
+            let listing = CreateListingFactory.createListing(input, ownerID: userID)
 
             try! await listing.create(on: database)
 
-            let output = Listing.Output(
-                listingNumber: listing.listingNumber,
-                owner: user,
-                title: input.title,
-                caption: input.caption,
-                category: input.category,
-                likes: input.likes,
-                size: input.size,
-                currency: input.currency,
-                askingPrice: input.askingPrice,
-                isSold: input.isSold,
-                createdAt: listing.createdAt?.formatted(date: .complete, time: .shortened).description
-            )
-
+            let output = CreateListingFactory.createListingOutput(listing)
             return try await output.encodeResponse(status: .ok, for: request)
 
         } catch let error {
@@ -125,7 +101,9 @@ extension UserController {
             let currentNumberOfLikes = listing.likes
             listing.likes = currentNumberOfLikes + 1
             try await listing.save(on: database)
-            return try await listing.encodeResponse(status: .ok, for: request)
+
+            let output = CreateListingFactory.createListingOutput(listing)
+            return try await output.encodeResponse(status: .ok, for: request)
         } catch let error {
             request.logger.error("Failed to save like count for listing number: \(listingNumber) with error: \(error)")
             return Response.create(status: .ok, mediaType: .json)
