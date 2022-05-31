@@ -24,7 +24,7 @@ final class Category: Model, Content {
 
     init(
         name: String,
-        parentID: Category.IDValue?
+        parentID: Category.IDValue? = nil
     ) {
         self.name = name
         self.$parent.id = parentID

@@ -40,8 +40,6 @@ final class Listing: Model, Content {
 
     @OptionalField(key: "caption") var caption: String?
 
-    @Field(key: "category") var category: String
-
     @Field(key: "likes") var likes: Int
 
     @Field(key: "size") var size: String
@@ -58,12 +56,13 @@ final class Listing: Model, Content {
 
     @Parent(key: "owner_id") var ownerID: User
 
+    @OptionalParent(key: "category_id") var category: Category?
+
     public init() {}
 
     public init(
         title: String,
         caption: String? = nil,
-        category: String,
         likes: Int,
         size: String,
         currency: String,
@@ -71,10 +70,10 @@ final class Listing: Model, Content {
         isSold: Bool,
         createdAt: Date? = nil,
         updatedAt: Date? = nil,
-        ownerID: User.IDValue
+        ownerID: User.IDValue,
+        categoryID: Category.IDValue? = nil
     ) {
         self.title = title
-        self.category = category
         self.caption = caption
         self.likes = likes
         self.size = size
@@ -84,6 +83,7 @@ final class Listing: Model, Content {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.$ownerID.id = ownerID
+        self.$category.id = categoryID
     }
 }
 

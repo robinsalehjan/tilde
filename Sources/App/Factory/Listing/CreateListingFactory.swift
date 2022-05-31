@@ -1,26 +1,32 @@
 import Foundation
 
 class CreateListingFactory: ListingFactory {
-    static func createListing(_ input: Listing.Input, ownerID: Listing.IDValue) -> Listing {
+    static func createListing(
+        _ input: Listing.Input,
+        ownerID: Listing.IDValue,
+        categoryID: Category.IDValue?
+    ) -> Listing {
         return Listing(
             title: input.title,
             caption: input.caption,
-            category: input.category,
             likes: input.likes,
             size: input.size,
             currency: input.currency,
             askingPrice: input.askingPrice,
             isSold: input.isSold,
-            ownerID: ownerID
+            ownerID: ownerID,
+            categoryID: categoryID
         )
     }
 
-    static func createListingOutput(_ model: Listing) -> Listing.Output {
+    static func createListingOutput(
+        _ model: Listing
+    ) -> Listing.Output {
         return Listing.Output(
             listingNumber: model.listingNumber,
             title: model.title,
             caption: model.caption,
-            category: model.category,
+            category: model.category?.description ?? "",
             likes: model.likes,
             size: model.size,
             currency: model.currency,

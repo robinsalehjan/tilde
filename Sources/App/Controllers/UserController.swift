@@ -32,8 +32,8 @@ extension UserController {
         do {
             let userID = try user.requireID()
             let input = try request.content.decode(Listing.Input.self)
-            let listing = CreateListingFactory.createListing(input, ownerID: userID)
 
+            let listing = CreateListingFactory.createListing(input, ownerID: userID, categoryID: nil)
             try! await listing.create(on: database)
 
             let output = CreateListingFactory.createListingOutput(listing)
