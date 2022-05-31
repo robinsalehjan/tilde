@@ -20,7 +20,7 @@ brew services start postgresql
 
 Remember to create the user and database via ```psql```
 
-2. Install Docker
+3. Install Docker
 
 ```
 brew install docker 
@@ -54,7 +54,7 @@ docker compose build && docker compose up
 
 # Is it running?
 
-If everything went smoothly you should be greeted with in the terminal or Xcode output tab :)
+If everything went smoothly you should be greeted with this in the terminal or Xcode output console :)
 ```
 [ INFO ] Connecting to database with configuration: App.PostgresService
 [ INFO ] Attempting to perform database migrations
