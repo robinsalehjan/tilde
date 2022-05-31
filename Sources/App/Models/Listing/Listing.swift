@@ -15,7 +15,7 @@ final class Listing: Model, Content {
 
     struct Output: Content {
         let listingNumber: Int?
-        let owner: User
+        let owner: User.Output
         let title: String
         let caption: String?
         let category: String
