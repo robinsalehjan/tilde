@@ -19,7 +19,8 @@ public func configure(_ app: Application, database: DatabaseConfiguration) throw
 
     app.migrations.add([
         CreateUser(),
-        CreateListing()
+        CreateCategory(),
+        CreateListing(),
     ])
 
     do {
