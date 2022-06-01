@@ -1,8 +1,7 @@
 # Prequisite
 
-This README assumes you have Swift and Xcode installed locally.
+1. Set environment variables in shell or create .env file with the contents of:
 
-1. Set environment variables in shell
 ```
 export DATABASE_HOST="hostname"
 export DATABASE_PORT="5432"
@@ -28,7 +27,7 @@ brew install docker
 
 # Run locally
 
-This step assumes that the environment variables are set. 
+This step assumes that you have Swift and Xcode installed
 
 ```
 vapor run
