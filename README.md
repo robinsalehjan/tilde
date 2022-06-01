@@ -62,3 +62,9 @@ If everything went smoothly you should be greeted with this in the terminal or X
 [ INFO ] Successfully registered routes: [POST /create/user, POST /user/create/listing, GET /user/read/listings, POST /user/update/listing/like, GET /search]
 [ NOTICE ] Server starting on http://127.0.0.1:8080
 ```
+
+# Would I do it again?
+
+Maybe. Swift is known for begin notoriously bad at working with JSON data and I felt that while developing this. Heck even overriding the global encoding and decoding configuration did not produce the results I expected, turn `snake-case` to `CamelCase` in requests and vice versa for responses).
+
+The heavy usage of `KeyPath`is great for developer productivity, but the downside is that compiler will not always be able to infer the expression. This resulted in a numerous of `Failed to produce diagnostics for expression, please submit a bug report`
