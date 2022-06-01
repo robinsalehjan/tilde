@@ -7,6 +7,7 @@ class CreateCategoryFactory: CategoryFactory {
 
     static func createCategoryFromInput(_ string: String, to database: Database) async -> Category? {
         var listOfCategories = string.splitOnSeperator(".")
+        guard !listOfCategories.isEmpty else { return nil }
 
         let categoryName = listOfCategories.removeFirst()
 
