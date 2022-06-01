@@ -31,7 +31,7 @@ final class Category: Model, Content {
     }
 }
 
-/// Ideally this should have been modelled as graph rather than a linear tree
+/// Ideally this should have been modelled as a set of child categories or graph rather than a linear tree
 ///  This solution doesn't scale with very large trees
 extension Category {
     func add(_ categories: [String], to database: Database) async -> Category {
