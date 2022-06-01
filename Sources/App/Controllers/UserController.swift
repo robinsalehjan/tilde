@@ -33,7 +33,7 @@ extension UserController {
             let userID = try user.requireID()
             let input = try request.content.decode(Listing.Input.self)
 
-            if let category = await CreateCategoryFactory.createCategoryFromString(input.category, to: database) {
+            if let category = await CreateCategoryFactory.createCategoryFromInput(input.category, to: database) {
                 let categoryID = try? category.requireID()
 
                 let listing = CreateListingFactory.createListing(input, ownerID: userID, categoryID: categoryID)
