@@ -39,18 +39,33 @@ extension UserController {
                 let listing = CreateListingFactory.createListing(input, ownerID: userID, categoryID: categoryID)
                 try? await listing.create(on: database)
 
-                let output = CreateListingFactory.createListingOutput(listing)
+                let output = await createAndSaveListing(input, ownerID: userID, categoryID: categoryID, to: database)
                 return try await output.encodeResponse(status: .ok, for: request)
 
             } else {
-                request.logger.error("Category \(input.category) is not supported")
-                return Response.create(status: .ok, mediaType: .json)
+                request.logger.error("Category or one of it's children \(input.category) does not exist in the database")
+                request.logger.error("Create listing and return")
+                let output = await createAndSaveListing(input, ownerID: userID,categoryID: nil, to: database)
+                return try await output.encodeResponse(status: .ok, for: request)
             }
 
         } catch let error {
             request.logger.error("Failed to handle request: \(request) with error: \(error)")
+            
             return Response.create(status: .internalServerError, mediaType: .json)
         }
+    }
+
+    private func createAndSaveListing(
+        _ input: Listing.Input,
+        ownerID: Listing.IDValue,
+        categoryID: Category.IDValue?,
+        to database: Database
+    ) async -> Listing.Output {
+        let listing = CreateListingFactory.createListing(input, ownerID: ownerID, categoryID: nil)
+        try? await listing.create(on: database)
+        return CreateListingFactory.createListingOutput(listing)
+
     }
 }
 
