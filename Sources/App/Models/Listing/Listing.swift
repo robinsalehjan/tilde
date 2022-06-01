@@ -23,7 +23,6 @@ final class Listing: Model, Content {
         let currency: String
         let askingPrice: Int
         let isSold: Bool
-        let createdAt: String?
     }
 
     struct Error: Content {

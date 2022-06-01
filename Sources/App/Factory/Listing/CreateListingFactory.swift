@@ -31,8 +31,7 @@ class CreateListingFactory: ListingFactory {
             size: model.size,
             currency: model.currency,
             askingPrice: model.askingPrice,
-            isSold: model.isSold,
-            createdAt: model.createdAt?.formatted(date: .complete, time: .shortened).description
+            isSold: model.isSold
         )
     }
 }
