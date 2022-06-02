@@ -1,6 +1,6 @@
 # Prequisite
 
-1. Set environment variables in shell or create .env file with the contents of:
+1. Set these environment variables in your shell **or** create a `.env` file with this:
 
 ```
 export DATABASE_HOST="hostname"
@@ -35,7 +35,7 @@ vapor run
 
 # Run via Docker
 
-Create a .env file that contains the environment variables from the prequisite step. This .env will be injected into the docker container on start-up.
+Create a `.env` file that contains the environment variables from the prequisite step. This `.env` will be injected into the docker container on start-up.
 
 ```
 export DATABASE_HOST="hostname"
@@ -64,6 +64,8 @@ If everything went smoothly you should be greeted with this in the terminal or X
 
 # Would I do it again?
 
-Maybe. Swift is known for begin notoriously bad at working with JSON and I felt that while developing this. Heck even overriding the global encoding and decoding configuration does not produce the results that I expected => change from `snake-case` to `CamelCase` in requests and inverse for responses.
+Swift is known for begin notoriously bad at working with JSON and I felt that while developing this. Heck even overriding the global encoding and decoding configuration does not produce the results that I expected => change from `snake-case` to `CamelCase` in requests and inverse for responses.
 
-The heavy usage of `KeyPath` in the APIs is great for developer productivity, but the downside is that compiler will not always be able to infer the expression. This resulted in a numerous of `Failed to produce diagnostics for expression, please submit a bug report to Apple` in Xcode. 
+The heavy usage of `KeyPath` in the APIs is great for developer productivity, but the downside is that compiler will not always be able to infer the expression. This issue was **extremely** prelevant wwhen working with the query builder provided by the ORM `Fluent` framework. This resulted in a numerous of `Failed to produce diagnostics for expression, please submit a bug report to Apple` in Xcode.
+
+I would maybe use it for internal microservices, or only use Vapor and not the bundled ORM framework, as it felt like a pandora's box of compiler issues locally and in docker containers.
