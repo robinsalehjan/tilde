@@ -27,15 +27,16 @@ brew install docker
 
 # Run locally
 
-This step assumes that you have Swift and Xcode installed
+This step assumes that you have Xcode/Swift installed and that the environment variables from the prequisite are in your shell.
 
 ```
+brew install vapor
 vapor run
 ```
 
 # Run via Docker
 
-Create a `.env` file that contains the environment variables from the prequisite step. This `.env` will be injected into the docker container on start-up.
+Create a `.env` file that contains the environment variables from the prequisite step. This file will be injected into the docker container on start-up.
 
 ```
 export DATABASE_HOST="hostname"
@@ -68,4 +69,4 @@ Swift is known for begin notoriously bad at working with JSON and I felt that wh
 
 The heavy usage of `KeyPath` in the APIs is great for developer productivity, but the downside is that compiler will not always be able to infer the expression. This issue was **extremely** prelevant wwhen working with the query builder provided by the ORM `Fluent` framework. This resulted in a numerous of `Failed to produce diagnostics for expression, please submit a bug report to Apple` in Xcode.
 
-I would maybe use it for internal microservices, or only use Vapor and not the bundled ORM framework, as it felt like working with a pandora's box of compiler issues both locally and when running in containers.
+I would maybe use it for internal microservices. Or only use Vapor and not the `Fluent` ORM framework, it felt like working with a pandora's box of compiler issues both locally and when running with docker. The documentation was not perfect either, but I think that most of these painpoints will improve as the ecosystem around Vapor matures.
