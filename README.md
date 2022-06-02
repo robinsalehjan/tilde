@@ -68,4 +68,4 @@ Swift is known for begin notoriously bad at working with JSON and I felt that wh
 
 The heavy usage of `KeyPath` in the APIs is great for developer productivity, but the downside is that compiler will not always be able to infer the expression. This issue was **extremely** prelevant wwhen working with the query builder provided by the ORM `Fluent` framework. This resulted in a numerous of `Failed to produce diagnostics for expression, please submit a bug report to Apple` in Xcode.
 
-I would maybe use it for internal microservices, or only use Vapor and not the bundled ORM framework, as it felt like a pandora's box of compiler issues locally and in docker containers.
+I would maybe use it for internal microservices, or only use Vapor and not the bundled ORM framework, as it felt like working with a pandora's box of compiler issues both locally and when running in containers.
