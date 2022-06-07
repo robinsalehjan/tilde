@@ -18,7 +18,11 @@ class CreateCategoryFactory: CategoryFactory {
             // A new parent category
             let newCategory = Category(name: categoryName, parentID: nil)
             try? await newCategory.create(on: database)
-            return newCategory
+
+            // A new parent may have child categories
+            // Continue recursion with the reduced list
+            // but return the parent
+            return await newCategory.add(listOfCategories, to: database)
         }
     }
 }
