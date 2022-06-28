@@ -1,55 +1,65 @@
 # Prequisite
+- We will use [homebrew](https://brew.sh) to install dependencies and it's required for the step-by-step tutorial below.
 
-1. Set these environment variables in your shell **or** create a `.env` file with this:
+
+# Run via Docker
+
+1. Install
+```
+brew install docker
+```
+
+2. Create a `.env` file that contains:
 
 ```
-export DATABASE_HOST="hostname"
-export DATABASE_PORT="5432"
-export DATABASE_USERNAME="username"
-export DATABASE_PASSWORD="password"
-export DATABASE_NAME="database_name"
+APP_HOSTNAME="tilde_app"
+APP_PORT="8080"
+DATABASE_PORT="5432"
+DATABASE_HOSTNAME="tilde_database"
+DATABASE_USERNAME="tilde_username"
+DATABASE_PASSWORD="tilde_password"
+DATABASE_NAME="tilde_database"
 ```
 
-2. Install PostgreSQL
+2. Start `Docker`
+                                     
+```
+docker compose build && docker compose up
+```
+
+# Run locally
+
+1. Add these environment variables to your shell session:
+
+```
+export APP_HOSTNAME=tilde_app
+export APP_PORT=8080
+export DATABASE_PORT=5432
+export DATABASE_HOSTNAME=tilde_database
+export DATABASE_USERNAME=tilde_username
+export DATABASE_PASSWORD=tilde_password
+export DATABASE_NAME=tilde_database
+```
+
+2. Install `PostgreSQL`
 
 ```
 brew install postgresql 
 brew services start postgresql
 ```
 
-Remember to create the user and database via ```psql```
-
-3. Install Docker
+3. Create user and database via `psql`
 
 ```
-brew install docker 
+CREATE DATABASE tilde_database;
+CREATE USER youruser WITH PASSWORD 'tilde_password';
+GRANT ALL PRIVILEGES ON DATABASE tilde_database TO tilde_username;
 ```
 
-# Run locally
-
-This step assumes that you have Xcode/Swift installed and that the environment variables from the prequisite are in your shell.
-
+4. Install `Vapor`
 ```
 brew install vapor
 vapor run
-```
-
-# Run via Docker
-
-Create a `.env` file that contains the environment variables from the prequisite step. This file will be injected into the docker container on start-up.
-
-```
-export DATABASE_HOST="hostname"
-export DATABASE_PORT="5432"
-export DATABASE_USERNAME="username"
-export DATABASE_PASSWORD="password"
-export DATABASE_NAME="database_name"
-```
-
-Followed by
-                                     
-```
-docker compose build && docker compose up
 ```
 
 # Is it running?
