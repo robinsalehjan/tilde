@@ -48,7 +48,7 @@ brew install postgresql
 brew services start postgresql
 ```
 
-3. Create user and database via `psql`
+3. Create database and user via `psql`
 
 ```
 CREATE DATABASE tilde_database;
