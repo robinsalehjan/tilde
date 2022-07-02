@@ -19,6 +19,9 @@ version: '3.7'
 volumes:
   database:
 
+networks:
+  default: 
+    name: "tilde_network"
 
 x-shared_environment: &shared_environment
   LOG_LEVEL: ${LOG_LEVEL:-debug}
