@@ -5,7 +5,7 @@ import App
 var env = try Environment.detect()
 try LoggingSystem.bootstrap(from: &env)
 
-let hostname = Environment.get("DATABASE_HOST")!
+let hostname = Environment.get("DATABASE_NAME")!
 let port = Environment.get("DATABASE_PORT").flatMap({Int($0)})!
 let username = Environment.get("DATABASE_USERNAME")!
 let password = Environment.get("DATABASE_PASSWORD")!
