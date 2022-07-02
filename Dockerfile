@@ -9,6 +9,24 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
     && apt-get -q dist-upgrade -y \
     && rm -rf /var/lib/apt/lists/*
 
+# Available during build-time of image
+ARG DEFAULT_SERVICE_NAME=tilde_app
+ARG DEFAULT_SERVICE_PORT=8080
+ARG DEFAULT_DATABASE_USERNAME=tilde_username
+ARG DEFAULT_DATABASE_PASSWORD=tilde_password
+ARG DEFAULT_DATABASE_NAME=tilde_database
+ARG DEFAULT_DATABASE_PORT=5432
+
+# Available during build-time of image & run-time of container
+# The value of these environment variables can be overriden via `run-env.sh`
+# or pasing the environment variables via the CLI
+ENV SERVICE_NAME=$DEFAULT_SERVICE_NAME
+ENV SERVICE_PORT=$DEFAULT_SERVICE_PORT
+ENV DATABASE_NAME=$DEFAULT_DATABASE_NAME
+ENV DATABASE_USERNAME=$DEFAULT_DATABASE_NAME
+ENV DATABASE_PASSWORD=$DEFAULT_DATABASE_PASSWORD
+ENV DATABASE_PORT=$DEFAULT_DATABASE_PORT
+
 # Set up a build area
 WORKDIR /build
 
@@ -61,9 +79,9 @@ COPY --from=build --chown=vapor:vapor /staging /app
 # Ensure all further commands run as the vapor user
 USER vapor:vapor
 
-# Let Docker bind to port 8080
-EXPOSE 8080
+# Let Docker bind to port declared in the .env file (8080 by default)
+EXPOSE $SERVICE_PORT
 
 # Start the Vapor service when the image is run, default to listening on 8080 in production environment
 ENTRYPOINT ["./Run"]
-CMD ["serve", "--env", "production", "--hostname", "0.0.0.0", "--port", "8080"]
+CMD ["serve", "--env", "production", "--hostname", $SERVICE_NAME, "--port", $SERVICE_PORT]
