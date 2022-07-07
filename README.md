@@ -52,8 +52,10 @@ curl --location --request POST 'localhost:8080/create/user' \
 
 # Would I do it again?
 
-Swift is known for begin notoriously bad at working with JSON and I felt that while developing this. Heck even overriding the global encoding and decoding configuration does not produce the results that I expected => change from `snake-case` to `CamelCase` in requests and inverse for responses.
+Swift is known for begin notoriously bad at working with JSON and I felt that while developing this. Overriding the global encoding and decoding configuration does not produce the results that I expected, changing `snake-case` to `CamelCase` in requests and `CamelCase` to `snake-case` for responses. 
 
-The heavy usage of `KeyPath` in the APIs is great for developer productivity, but the downside is that compiler will not always be able to infer the expression. This issue was **extremely** prelevant when working with the query builder provided by the `Fluent` framework. This resulted in a numerous of `Failed to produce diagnostics for expression, please submit a bug report to Apple` in Xcode.
+[See configuration options passed to `App` instance here](https://github.com/robinsalehjan/tilde/blob/29097370be9a0cac81a3798068cf4dbf5ac447e8/Sources/App/configure.swift#L7-L19)
 
-I would maybe use it for internal microservices, or only use Vapor and not the `Fluent` ORM framework. It was a pandora's box of compiler issues both locally and when running with docker. I think that most of these painpoints will improve as the ecosystem around Vapor and Swift grows.
+The heavy usage of `KeyPath` in the APIs is great for developer productivity, but the downside is that compiler will not always be able to infer the expression. This issue was **extremely** prelevant when working with the query builder provided by `Fluent` framework. This resulted in a numerous of `Failed to produce diagnostics for expression, please submit a bug report to Apple` in Xcode.
+
+I would use `Vapor` for internal microservices, or only use `Vapor` and not the `Fluent` ORM framework, most of these painpoints will improve as the ecosystem around `Vapor` and `Swift` grows.
