@@ -41,11 +41,10 @@ extension UserController {
 
                 let output = await createAndSaveListing(input, ownerID: userID, categoryID: categoryID, to: database)
                 return try await output.encodeResponse(status: .ok, for: request)
-
             } else {
-                request.logger.error("Category or one of it's children \(input.category) does not exist in the database")
-                request.logger.error("Create listing and return")
-                let output = await createAndSaveListing(input, ownerID: userID,categoryID: nil, to: database)
+                request.logger.info("A category or one of it's children \(input.category.splitOnSeperator(".")) does not exist in the database")
+                let output = await createAndSaveListing(input, ownerID: userID, categoryID: nil, to: database)
+                request.logger.info("Listing: \(output) was created")
                 return try await output.encodeResponse(status: .ok, for: request)
             }
 
@@ -65,7 +64,6 @@ extension UserController {
         let listing = CreateListingFactory.createListing(input, ownerID: ownerID, categoryID: nil)
         try? await listing.create(on: database)
         return CreateListingFactory.createListingOutput(listing)
-
     }
 }
 

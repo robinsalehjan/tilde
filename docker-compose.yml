@@ -10,45 +10,37 @@
 #
 #   Build images: docker-compose build
 #      Start app: docker-compose up app
-# Start database: docker-compose up db
+# Start database: docker-compose up database
 # Run migrations: docker-compose run migrate
-#       Stop all: docker-compose down (add -v to wipe db)
+#       Stop all: docker-compose down (add -v to wipe database)
 #
 version: '3.7'
 
 volumes:
-  db_data:
+  database:
 
-x-shared_environment: &shared_environment
-  LOG_LEVEL: ${LOG_LEVEL:-debug}
-  DATABASE_HOST: db
-  DATABASE_NAME: vapor_database
-  DATABASE_USERNAME: vapor_username
-  DATABASE_PASSWORD: vapor_password
-  
+networks:
+  default: 
+    name: "tilde_network"
+
 services:
   app:
     image: tilde:latest
-    env_file:
-      - .env
+    env_file: .env
+    container_name: $SERVICE_NAME
     build:
       context: .
-    environment:
-      <<: *shared_environment
     depends_on:
-      - db
+      - database
     ports:
-      - '8080:8080'
-    # user: '0' # uncomment to run as root for testing purposes even though Dockerfile defines 'vapor' user.
-    command: ["serve", "--env", "production", "--hostname", "0.0.0.0", "--port", "8080"]
+      - $SERVICE_PORT:$SERVICE_PORT
+    command: ["serve", "--env", "production", "--hostname", $SERVICE_NAME, "--port", $SERVICE_PORT]
   migrate:
     image: tilde:latest
     build:
       context: .
-    environment:
-      <<: *shared_environment
-    depends_on:
-      - db
+    depends_on: 
+      - database
     command: ["migrate", "--yes"]
     deploy:
       replicas: 0
@@ -56,21 +48,21 @@ services:
     image: tilde:latest
     build:
       context: .
-    environment:
-      <<: *shared_environment
     depends_on:
-      - db
+      - database
     command: ["migrate", "--revert", "--yes"]
     deploy:
       replicas: 0
-  db:
+  database:
     image: postgres:14-alpine
+    env_file: .env
+    container_name: $DATABASE_NAME
     volumes:
-      - db_data:/var/lib/postgresql/data/pgdata
+      - database:/var/lib/postgresql/data/pgdata
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
-      POSTGRES_USER: vapor_username
-      POSTGRES_PASSWORD: vapor_password
-      POSTGRES_DB: vapor_database
+      POSTGRES_USER: $DATABASE_USERNAME
+      POSTGRES_PASSWORD: $DATABASE_PASSWORD
+      POSTGRES_DB: $DATABASE_NAME
     ports:
-      - '5432:5432'
+      - $DATABASE_PORT:$DATABASE_PORT
