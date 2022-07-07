@@ -79,7 +79,7 @@ COPY --from=build --chown=vapor:vapor /staging /app
 # Ensure all further commands run as the vapor user
 USER vapor:vapor
 
-# Let Docker bind to port declared in the .env file (8080 by default)
+# Docker bind to port
 EXPOSE $SERVICE_PORT
 
 # Start the Vapor service when the image is run, default to listening on 8080 in production environment
