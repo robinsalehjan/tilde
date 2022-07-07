@@ -1,5 +1,5 @@
 # Prequisite
-- We will use [homebrew](https://brew.sh) to install dependencies and it's required for the step-by-step tutorial below.
+- We will use [homebrew](https://brew.sh) to install Docker.
 
 
 # Run via Docker
@@ -9,68 +9,45 @@
 brew install docker
 ```
 
-2. Create a `.env` file that contains:
+2. Create a `.env` file with the contents of:
 
 ```
-APP_HOSTNAME="tilde_app"
-APP_PORT="8080"
-DATABASE_PORT="5432"
-DATABASE_HOSTNAME="tilde_database"
-DATABASE_USERNAME="tilde_username"
-DATABASE_PASSWORD="tilde_password"
-DATABASE_NAME="tilde_database"
+SERVICE_NAME=tilde_app
+SERVICE_PORT=8080
+DATABASE_NAME=tilde_database
+DATABASE_USERNAME=tilde_username
+DATABASE_PASSWORD=tilde_password
+DATABASE_PORT=5432
 ```
 
-2. Start `Docker`
+2. Start `docker compose`
                                      
 ```
-docker compose build && docker compose up
-```
-
-# Run locally
-
-1. Add these environment variables to your shell session:
-
-```
-export APP_HOSTNAME=tilde_app
-export APP_PORT=8080
-export DATABASE_PORT=5432
-export DATABASE_HOSTNAME=tilde_database
-export DATABASE_USERNAME=tilde_username
-export DATABASE_PASSWORD=tilde_password
-export DATABASE_NAME=tilde_database
-```
-
-2. Install `PostgreSQL`
-
-```
-brew install postgresql 
-brew services start postgresql
-```
-
-3. Create database and user via `psql`
-
-```
-CREATE DATABASE tilde_database;
-CREATE USER youruser WITH PASSWORD 'tilde_password';
-GRANT ALL PRIVILEGES ON DATABASE tilde_database TO tilde_username;
-```
-
-4. Install `Vapor`
-```
-brew install vapor
-vapor run
+docker compose build --no-cache .
+docker compose up
 ```
 
 # Is it running?
 
-If everything went smoothly you should be greeted with this in the terminal or Xcode output console :)
+If everything went smoothly you should be greeted with this in the terminal :)
 ```
-[ INFO ] Connecting to database with configuration: App.PostgresService
-[ INFO ] Attempting to perform database migrations
-[ INFO ] Attempting to register routes
-[ INFO ] Successfully registered routes: [POST /create/user, POST /user/create/listing, GET /user/read/listings, POST /user/update/listing/like, GET /search]
-[ NOTICE ] Server starting on http://127.0.0.1:8080
+[+] Running 2/0
+ ⠿ Container tilde_database  Created                                                                                                                       0.0s
+ ⠿ Container tilde_app       Created                                                                                                                       0.0s
+Attaching to tilde_app, tilde_database
+tilde_database  | 
+tilde_database  | PostgreSQL Database directory appears to contain a database; Skipping initialization
+tilde_database  | 2022-07-07 08:50:44.164 UTC [1] LOG:  database system is ready to accept connections
+tilde_app       | [ NOTICE ] Server starting on http://tilde_app:8080
+```
+
+Or create a user by running curl:
+```
+curl --location --request POST 'localhost:8080/create/user' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'username=username' \
+--data-urlencode 'firstName=user' \
+--data-urlencode 'lastName=name'
 ```
 
 # Would I do it again?
