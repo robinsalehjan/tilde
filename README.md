@@ -20,10 +20,11 @@ DATABASE_PASSWORD=tilde_password
 DATABASE_PORT=5432
 ```
 
-2. Build image before starting containers
+2. Build image and start containers
                                      
 ```
-docker compose up --build
+docker build --no-cache .
+docker compose up --force-recreate
 ```
 
 # Is it running?
