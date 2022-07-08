@@ -3,6 +3,13 @@
 # ================================
 FROM swift:5.6-focal as build
 
+# Image tag (the last git commit in short notation) and timestamp of creation
+ARG VERSION
+ARG BUILD_TIMESTAMP
+
+ENV VERSION=$VERSION
+ENV BUILD_TIMESTAMP=$BUILD_TIMESTAMP
+
 # Install OS updates and, if needed, sqlite3
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
     && apt-get -q update \
