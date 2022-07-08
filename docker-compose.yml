@@ -70,7 +70,7 @@ services:
     ports:
       - $DATABASE_PORT:$DATABASE_PORT
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"] # Use double `$` to expand the environment variables during execution
+      test: ["CMD-SHELL", "pg_isready -d $$DATABASE_NAME -U $$DATABASE_USERNAME"] # Use double `$` to expand the environment variables during execution
       interval: 5s
       timeout: 5s
       retries: 5
