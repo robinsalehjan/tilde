@@ -68,16 +68,16 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && \
     rm -r /var/lib/apt/lists/*
 
 # Create a vapor user and group with /app as its home directory
-RUN useradd --user-group --create-home --system --skel /dev/null --home-dir /app vapor
+RUN useradd --user-group --create-home --system --skel /dev/null --home-dir /app tilde
 
 # Switch to the new home directory
 WORKDIR /app
 
 # Copy built executable and any staged resources from builder
-COPY --from=build --chown=vapor:vapor /staging /app
+COPY --from=build --chown=tilde:tilde /staging /app
 
 # Ensure all further commands run as the vapor user
-USER vapor:vapor
+USER tilde:tilde
 
 # Docker bind to port
 EXPOSE $SERVICE_PORT
