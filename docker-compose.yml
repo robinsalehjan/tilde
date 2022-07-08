@@ -26,6 +26,7 @@ networks:
 services:
   app:
     image: tilde:latest
+    init: true
     env_file: .env
     container_name: $SERVICE_NAME
     build:
@@ -38,6 +39,7 @@ services:
     command: ["serve", "--env", "production", "--hostname", $SERVICE_NAME, "--port", $SERVICE_PORT]
   migrate:
     image: tilde:latest
+    init: true
     build:
       context: .
     depends_on:
@@ -48,6 +50,7 @@ services:
       replicas: 0
   revert:
     image: tilde:latest
+    init: true
     build:
       context: .
     depends_on:
@@ -58,6 +61,7 @@ services:
       replicas: 0
   database:
     image: postgres:14-alpine
+    init: true
     env_file: .env
     container_name: $DATABASE_NAME
     volumes:
