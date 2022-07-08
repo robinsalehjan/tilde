@@ -31,7 +31,8 @@ services:
     build:
       context: .
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     ports:
       - $SERVICE_PORT:$SERVICE_PORT
     command: ["serve", "--env", "production", "--hostname", $SERVICE_NAME, "--port", $SERVICE_PORT]
@@ -39,8 +40,9 @@ services:
     image: tilde:latest
     build:
       context: .
-    depends_on: 
-      - database
+    depends_on:
+      database:
+        condition: service_healthy
     command: ["migrate", "--yes"]
     deploy:
       replicas: 0
@@ -49,7 +51,8 @@ services:
     build:
       context: .
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     command: ["migrate", "--revert", "--yes"]
     deploy:
       replicas: 0
@@ -66,3 +69,8 @@ services:
       POSTGRES_DB: $DATABASE_NAME
     ports:
       - $DATABASE_PORT:$DATABASE_PORT
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"] # Use double `$` to expand the environment variables during execution
+      interval: 5s
+      timeout: 5s
+      retries: 5
