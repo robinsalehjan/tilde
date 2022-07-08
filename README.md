@@ -9,7 +9,7 @@
 brew install docker
 ```
 
-2. Create a `.env` file with the contents of:
+2. Create `.env` file with the content:
 
 ```
 SERVICE_NAME=tilde_app
@@ -35,9 +35,7 @@ If everything went smoothly you should be greeted with this in the terminal :)
  ⠿ Container tilde_database  Created                                                                                                                       0.0s
  ⠿ Container tilde_app       Created                                                                                                                       0.0s
 Attaching to tilde_app, tilde_database
-tilde_database  | 
-tilde_database  | PostgreSQL Database directory appears to contain a database; Skipping initialization
-tilde_database  | 2022-07-07 08:50:44.164 UTC [1] LOG:  database system is ready to accept connections
+...
 tilde_app       | [ NOTICE ] Server starting on http://tilde_app:8080
 ```
 
