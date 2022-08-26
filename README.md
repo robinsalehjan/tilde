@@ -50,7 +50,10 @@ curl --location --request POST 'localhost:8080/create/user' \
 
 # Would I do it again?
 
-Swift is known for begin notoriously bad at working with JSON and I felt that while developing this. Overriding the global encoding and decoding configuration does not produce the results that I expected, changing `snake-case` to `CamelCase` in requests and `CamelCase` to `snake-case` for responses. 
+Swift is known for begin notoriously bad at working with JSON. The global encoding and decoding configuration did not produce the results that I expected. 
+
+- The `encoder` is configured to encode *output* data into `snake-case` for example: `feeFiFoFum` would be encoded to `fee_fi_fo_fum`
+- The `decoder` is configured to decode *input* data into `snake-case` for example: `base_uri` would be decoded to `baseUri`
 
 [See configuration options passed to `App` instance here](https://github.com/robinsalehjan/tilde/blob/29097370be9a0cac81a3798068cf4dbf5ac447e8/Sources/App/configure.swift#L7-L19)
 
