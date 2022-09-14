@@ -71,7 +71,7 @@ services:
       POSTGRES_PASSWORD: $DATABASE_PASSWORD
       POSTGRES_DB: $DATABASE_NAME
     volumes:
-      - database:/var/lib/postgresql/data/pgdata
+      - .data/postgres:/var/lib/postgresql/data
     ports:
       - $DATABASE_PORT:$DATABASE_PORT
     healthcheck:
