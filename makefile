@@ -57,7 +57,8 @@ build_image: setup_env
 		--build-arg VERSION=${VERSION} \
 		--build-arg BUILD_TIMESTAMP=${BUILD_TIMESTAMP} \
 		--build-arg SERVICE_NAME=${SERVICE_NAME} \
-		--build-arg SERVICE_PORT=${SERVICE_PORT} .
+		--build-arg SERVICE_PORT=${SERVICE_PORT} \
+		--no-cache .
 
 push_image: build_image
 	@docker push ${TAG}
