@@ -3,36 +3,11 @@
 # ================================
 FROM swift:5.6-focal as build
 
-# Image tag (the last git commit in short notation) and timestamp of creation
-ARG VERSION
-ARG BUILD_TIMESTAMP
-
-ENV VERSION=$VERSION
-ENV BUILD_TIMESTAMP=$BUILD_TIMESTAMP
-
 # Install OS updates and, if needed, sqlite3
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
     && apt-get -q update \
     && apt-get -q dist-upgrade -y \
     && rm -rf /var/lib/apt/lists/*
-
-# Available during build-time of image
-ARG DEFAULT_SERVICE_NAME=tilde_app
-ARG DEFAULT_SERVICE_PORT=8080
-ARG DEFAULT_DATABASE_USERNAME=tilde_username
-ARG DEFAULT_DATABASE_PASSWORD=tilde_password
-ARG DEFAULT_DATABASE_NAME=tilde_database
-ARG DEFAULT_DATABASE_PORT=5432
-
-# Available during build-time of image & run-time of container
-# The value of these environment variables can be overriden via `run-env.sh`
-# or pasing the environment variables via the CLI
-ENV SERVICE_NAME=$DEFAULT_SERVICE_NAME
-ENV SERVICE_PORT=$DEFAULT_SERVICE_PORT
-ENV DATABASE_NAME=$DEFAULT_DATABASE_NAME
-ENV DATABASE_USERNAME=$DEFAULT_DATABASE_USERNAME
-ENV DATABASE_PASSWORD=$DEFAULT_DATABASE_PASSWORD
-ENV DATABASE_PORT=$DEFAULT_DATABASE_PORT
 
 # Set up a build area
 WORKDIR /build
@@ -68,6 +43,19 @@ RUN [ -d /build/Resources ] && { mv /build/Resources ./Resources && chmod -R a-w
 # Run image
 # ================================
 FROM ubuntu:focal
+
+# Image tag (the last git commit in short notation) and timestamp of creation
+ARG VERSION
+ENV VERSION=${VERSION}
+
+ARG BUILD_TIMESTAMP
+ENV BUILD_TIMESTAMP=${BUILD_TIMESTAMP}
+
+ARG SERVICE_NAME
+ENV SERVICE_NAME=${SERVICE_NAME}
+
+ARG SERVICE_PORT
+ENV SERVICE_PORT=${SERVICE_PORT}
 
 # Make sure all system packages are up to date.
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && \

@@ -27,6 +27,7 @@ services:
   app:
     image: tilde:latest
     init: true
+    restart: always
     env_file: .env
     container_name: $SERVICE_NAME
     build:
@@ -62,19 +63,21 @@ services:
   database:
     image: postgres:14-alpine
     init: true
+    restart: always
     env_file: .env
     container_name: $DATABASE_NAME
-    volumes:
-      - database:/var/lib/postgresql/data/pgdata
     environment:
-      PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_USER: $DATABASE_USERNAME
       POSTGRES_PASSWORD: $DATABASE_PASSWORD
       POSTGRES_DB: $DATABASE_NAME
+    volumes:
+      - .data/postgres:/var/lib/postgresql/data
+      - ./init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
     ports:
       - $DATABASE_PORT:$DATABASE_PORT
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $$DATABASE_NAME -U $$DATABASE_USERNAME"] # Use double `$` to expand the environment variables during execution
+      # Use double `$` to expand the environment variables during execution
+      test: ["CMD-SHELL", "pg_isready -d $$DATABASE_NAME -U $$DATABASE_USERNAME"]
       interval: 5s
       timeout: 5s
       retries: 5

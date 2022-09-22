@@ -1,0 +1,7 @@
+version: '3.7'
+
+services:
+  app:
+    env_file: .env
+  database:
+    env_file: .env
