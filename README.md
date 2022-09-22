@@ -12,19 +12,21 @@ brew install docker
 2. Create `.env` file with the content:
 
 ```
+ENV=DEVELOPMENT
 SERVICE_NAME=tilde_app
-SERVICE_PORT=8080
-DATABASE_NAME=tilde_database
+SERVICE_PORT=8000
 DATABASE_USERNAME=tilde_username
 DATABASE_PASSWORD=tilde_password
+DATABASE_NAME=tilde_database
 DATABASE_PORT=5432
 ```
 
-2. Build image and start containers
+2. Setup the environment, build containers and run the service
                                      
 ```
-docker build --no-cache .
-docker compose up --force-recreate
+make setup_env
+make compose_build
+make compose_up
 ```
 
 # Is it running?
