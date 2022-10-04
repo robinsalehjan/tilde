@@ -9,7 +9,7 @@
 brew install docker
 ```
 
-2. Create `.env` file with the content:
+2. Create `.env` file for docker compose
 
 ```
 ENV=DEVELOPMENT
@@ -21,10 +21,9 @@ DATABASE_NAME=tilde_database
 DATABASE_PORT=5432
 ```
 
-2. Setup the environment, build containers and run the service
+2. Build the container(s) and run the service(s)
                                      
 ```
-make setup_env
 make compose_build
 make compose_up
 ```
@@ -33,12 +32,17 @@ make compose_up
 
 If everything went smoothly you should be greeted with this in the terminal :)
 ```
-[+] Running 2/0
- ⠿ Container tilde_database  Created                                                                                                                       0.0s
- ⠿ Container tilde_app       Created                                                                                                                       0.0s
 Attaching to tilde_app, tilde_database
-...
-tilde_app       | [ NOTICE ] Server starting on http://tilde_app:8080
+tilde_database  | 
+tilde_database  | PostgreSQL Database directory appears to contain a database; Skipping initialization
+tilde_database  | 
+tilde_database  | 2022-10-04 21:44:09.876 UTC [7] LOG:  starting PostgreSQL 14.5 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 11.2.1_git20220219) 11.2.1 20220219, 64-bit
+tilde_database  | 2022-10-04 21:44:09.876 UTC [7] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+tilde_database  | 2022-10-04 21:44:09.876 UTC [7] LOG:  listening on IPv6 address "::", port 5432
+tilde_database  | 2022-10-04 21:44:09.883 UTC [7] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+tilde_database  | 2022-10-04 21:44:09.906 UTC [23] LOG:  database system was shut down at 2022-10-04 21:36:45 UTC
+tilde_database  | 2022-10-04 21:44:09.938 UTC [7] LOG:  database system is ready to accept connections
+tilde_app       | [ NOTICE ] Server starting on http://tilde_app:8000
 ```
 
 Or create a user by running curl:
