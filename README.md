@@ -58,8 +58,10 @@ curl -v --location -X POST 'localhost:8000/create/user' \
 
 Swift is known for begin notoriously bad at working with JSON. The global encoding and decoding configuration did not produce the results that I expected. 
 
-- The `encoder` is configured to encode *output* data into `snake_case format, for example: `feeFiFoFum` should be encoded to `fee_fi_fo_fum`
-- The `decoder` is configured to decode *input* data into `camelCase` format, for example: `base_uri` should be decoded to `baseUri`
+- The encoder is configured to encode output data into `snake_case` format
+  - `feeFiFoFum` => `fee_fi_fo_fum`
+- The decoder is configured to decode input data into `camelCase` format
+  - `base_uri` => `baseUri`
 
 [See configuration options passed to `App` instance here](https://github.com/robinsalehjan/tilde/blob/29097370be9a0cac81a3798068cf4dbf5ac447e8/Sources/App/configure.swift#L7-L19)
 
